@@ -1,18 +1,7 @@
 import { Component } from '@angular/core';
-import {Apollo, gql} from "apollo-angular";
+import {map, Observable} from "rxjs";
+import {PagesGQL, PagesQuery, TestsGQL, TestsQuery} from "graphql/generated";
 
-const GET_PAGES = gql`
-  query Pages {
-    pages {
-      data{
-        id
-        attributes{
-          title
-        }
-      }
-    }
-  }
-`;
 
 @Component({
   selector: 'app-root',
@@ -20,16 +9,13 @@ const GET_PAGES = gql`
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'gq4';
-  constructor(private apollo: Apollo) {
 
-    this.apollo.watchQuery<any>({
-      query: GET_PAGES
-    })
-      .valueChanges
-      .subscribe(({ data, loading, error }) => {
+  pages$: Observable<PagesQuery['pages']>
+  tests$: Observable<TestsQuery['tests']>
 
-        console.log(data);
-      });
+  constructor(pagesGQL: PagesGQL, testsGQL: TestsGQL) {
+    this.pages$ = pagesGQL.watch().valueChanges.pipe(map(result => result.data.pages))
+    this.tests$ = testsGQL.watch().valueChanges.pipe(map(result => result.data.tests))
+    this.tests$.subscribe( e => console.log(e.data[0].attributes.img.data))
   }
 }

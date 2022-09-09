@@ -1,0 +1,27 @@
+query Pages {
+  pages {
+    data{
+      id
+      attributes{
+        title
+      }
+    }
+  }
+}
+query Tests {
+  tests {
+    data{
+      id
+      attributes{
+        title
+        img {
+          data {
+            attributes {
+              formats
+            }
+          }
+        }
+      }
+    }
+  }
+}
