@@ -8,8 +8,10 @@ query Pages {
     }
   }
 }
-query Tests {
-  tests {
+query Tests($start: Int) {
+  tests(pagination : {
+    start: $start
+  } ) {
     data{
       id
       attributes{

@@ -1092,7 +1092,9 @@ export type PagesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type PagesQuery = { __typename?: 'Query', pages?: { __typename?: 'PageEntityResponseCollection', data: Array<{ __typename?: 'PageEntity', id?: string | null, attributes?: { __typename?: 'Page', title?: string | null } | null }> } | null };
 
-export type TestsQueryVariables = Exact<{ [key: string]: never; }>;
+export type TestsQueryVariables = Exact<{
+  start?: InputMaybe<Scalars['Int']>;
+}>;
 
 
 export type TestsQuery = { __typename?: 'Query', tests?: { __typename?: 'TestEntityResponseCollection', data: Array<{ __typename?: 'TestEntity', id?: string | null, attributes?: { __typename?: 'Test', title?: string | null, img: { __typename?: 'UploadFileRelationResponseCollection', data: Array<{ __typename?: 'UploadFileEntity', attributes?: { __typename?: 'UploadFile', formats?: any | null } | null }> } } | null }> } | null };
@@ -1121,8 +1123,8 @@ export const PagesDocument = gql`
     }
   }
 export const TestsDocument = gql`
-    query Tests {
-  tests {
+    query Tests($start: Int) {
+  tests(pagination: {start: $start}) {
     data {
       id
       attributes {

@@ -16,6 +16,9 @@ export class AppComponent {
   constructor(pagesGQL: PagesGQL, testsGQL: TestsGQL) {
     this.pages$ = pagesGQL.watch().valueChanges.pipe(map(result => result.data.pages))
     this.tests$ = testsGQL.watch().valueChanges.pipe(map(result => result.data.tests))
-    this.tests$.subscribe( e => console.log(e.data[0].attributes.img.data))
+    // this.tests$.subscribe( e => console.log(e.data[0].attributes.img.data))
+    testsGQL.fetch({
+      "start": 2
+    }).subscribe( e => console.log(e))
   }
 }
