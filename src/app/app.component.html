@@ -2,7 +2,11 @@
     <li *ngFor="let page of pages">{{ page.id }}: {{ page.attributes.title }}</li>
 </ul>
 <ul *ngIf="(tests$ | async)?.data as tests">
-  <li *ngFor="let test of tests">
-    {{ test.id }}: {{ test.attributes.title }}: {{ test.attributes.img.data[0]?.attributes?.formats?.large?.url | json }}</li>
+  <li *ngFor="let test of tests; let i = index">
+    {{ test.id }}: {{ test.attributes.title }}:
+    <ng-container *ngFor="let img of test.attributes.img.data">
+      <img [src]="img?.attributes.formats?.large?.url" width="100">
+    </ng-container>
+  </li>
 </ul>
 
